@@ -4,27 +4,30 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class TaskActivity extends Activity {
+public class TaskActivity extends Fragment {
     //시작 버튼이 얼마나 눌렸는지 확인할 값
     private int btnCount = 0;
-    private TextView btnCountText = null;
+    private View rootView;
 
-    /** Called when the activity is first created. */
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_task,container,false);
 
-        textView = (TextView) findViewById(R.id.TextView);
-        startBtn = (Button) findViewById(R.id.startBtn);
-        stopBtn = (Button) findViewById(R.id.stopBtn);
-        resetBtn = (Button) findViewById(R.id.resetBtn);
+        textView = (TextView) rootView.findViewById(R.id.TextView);
+        startBtn = (Button) rootView.findViewById(R.id.startBtn);
+        stopBtn = (Button) rootView.findViewById(R.id.stopBtn);
+        resetBtn = (Button) rootView.findViewById(R.id.resetBtn);
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,8 +38,7 @@ public class TaskActivity extends Activity {
                     handler.sendEmptyMessage(0);
                 }
             }
-        }
-        );
+        });
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +56,16 @@ public class TaskActivity extends Activity {
                 textView.setText("Value = " + value);
             }
         });
+
+        return rootView;
+    }
+
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
     }
 
     //매 1초 마다 증가할 정수값
