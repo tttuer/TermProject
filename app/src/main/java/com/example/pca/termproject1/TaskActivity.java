@@ -19,16 +19,18 @@ public class TaskActivity extends Fragment {
     private int btnCount = 0;
     private View rootView;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_task,container,false);
 
-        textView = (TextView) rootView.findViewById(R.id.TextView);
-        startBtn = (Button) rootView.findViewById(R.id.startBtn);
-        stopBtn = (Button) rootView.findViewById(R.id.stopBtn);
-        resetBtn = (Button) rootView.findViewById(R.id.resetBtn);
+        hour_textView = (TextView) rootView.findViewById(R.id.hourText);
+        minute_textView = (TextView) rootView.findViewById(R.id.minuteText);
+        second_textView = (TextView) rootView.findViewById(R.id.secondText);
+        startBtn = (TextView) rootView.findViewById(R.id.startBtn);
+        stopBtn = (TextView) rootView.findViewById(R.id.stopBtn);
+        resetBtn = (TextView) rootView.findViewById(R.id.resetBtn);
 
+        //시작 작업 수행
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +42,7 @@ public class TaskActivity extends Fragment {
             }
         });
 
+        //정지 작업 수행
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,12 +51,17 @@ public class TaskActivity extends Fragment {
             }
         });
 
+        //초기화 작업 수행
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btnCount = 0;
-                value = 0;
-                textView.setText("Value = " + value);
+                second_value = 0;
+                minute_value = 0;
+                hour_value = 0;
+                second_textView.setText("00");
+                minute_textView.setText("00");
+                hour_textView.setText("00");
             }
         });
 
@@ -64,22 +72,50 @@ public class TaskActivity extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     //매 1초 마다 증가할 정수값
-    private int value = 0;
-    private TextView textView = null;
-    private Button startBtn;
-    private Button stopBtn;
-    private Button resetBtn;
+    private int hour_value = 0;
+    private int minute_value = 0;
+    private int second_value = 0;
+    private TextView hour_textView = null;
+    private TextView minute_textView = null;
+    private TextView second_textView = null;
+    private TextView startBtn;
+    private TextView stopBtn;
+    private TextView resetBtn;
 
     //타이머를 처리하기 위해 핸들러 객체 생성
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
-            textView.setText("Value = " + value);
-            value++;
+            if(second_value >= 60){
+                second_value = 0;
+                minute_value++;
+            }
+            if(minute_value >= 60){
+                minute_value = 0;
+                hour_value++;
+            }
+
+            //초에 대한 textView값 처리
+            if(second_value < 10) {
+                second_textView.setText("0" + second_value);
+            } else {
+                second_textView.setText("" + second_value);
+            }
+            if(minute_value < 10) {
+                minute_textView.setText("0" + minute_value);
+            } else {
+                minute_textView.setText("" + minute_value);
+            }
+            if(hour_value < 10) {
+                hour_textView.setText("0" + hour_value);
+            } else {
+                hour_textView.setText("" + hour_value);
+            }
+
+            second_value++;
+
             handler.sendEmptyMessageDelayed(0, 1000);
             //1초간의 지연 시간을 두어 1초후에 자기자신이 호출 되도록 한다.
         }
