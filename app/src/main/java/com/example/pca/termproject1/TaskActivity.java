@@ -1,12 +1,14 @@
 package com.example.pca.termproject1;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,6 +43,7 @@ public class TaskActivity extends Fragment {
                 }
             }
         });
+        textOnTouchEvent(startBtn);
 
         //정지 작업 수행
         stopBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +53,7 @@ public class TaskActivity extends Fragment {
                 handler.removeMessages(0);
             }
         });
+        textOnTouchEvent(stopBtn);
 
         //초기화 작업 수행
         resetBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +68,7 @@ public class TaskActivity extends Fragment {
                 hour_textView.setText("00");
             }
         });
+        textOnTouchEvent(resetBtn);
 
         return rootView;
     }
@@ -120,4 +125,24 @@ public class TaskActivity extends Fragment {
             //1초간의 지연 시간을 두어 1초후에 자기자신이 호출 되도록 한다.
         }
     };
+
+    //버튼이 눌렀을때 텍스트 색깔이 바뀌는 작업 수행
+    public void textOnTouchEvent(final TextView textView){
+        textView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    if(textView.getClass()==view.getClass()){
+                        textView.setTextColor(Color.RED);
+                    }
+                }
+                if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+                    if(textView.getClass()==view.getClass()){
+                        textView.setTextColor(Color.BLACK);
+                    }
+                }
+                return false;
+            }
+        });
+    }
 }
