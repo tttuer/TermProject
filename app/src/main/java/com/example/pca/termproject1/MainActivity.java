@@ -1,12 +1,17 @@
 package com.example.pca.termproject1;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import com.google.android.gms.maps.MapFragment;
 
 /**
  * Created by pca on 2016-11-25.
@@ -17,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     MapsActivity mapsActivity;
     TaskActivity taskActivity;
+    MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
-        mapsActivity = new MapsActivity();
         taskActivity = new TaskActivity();
+        mapsActivity = new MapsActivity();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, taskActivity).commit();
 
@@ -47,10 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 Fragment selected = null;
                 if(position == 0){
                     selected = taskActivity;
-                } else if(position == 1){
+                } else if(position == 1) {
                     selected = mapsActivity;
                 }
-
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, selected).commit();
             }
