@@ -1,18 +1,12 @@
 package com.example.pca.termproject1;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
-import com.google.android.gms.maps.MapFragment;
-
 /**
  * Created by pca on 2016-11-25.
  */
@@ -22,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     MapsActivity mapsActivity;
     TaskActivity taskActivity;
-    MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

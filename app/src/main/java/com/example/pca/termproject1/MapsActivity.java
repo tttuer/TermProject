@@ -1,5 +1,6 @@
 package com.example.pca.termproject1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -50,6 +52,7 @@ public class MapsActivity extends Fragment implements GoogleApiClient.Connection
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private static final int REQUEST_CODE_LOCATION = 2;
+    private LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,17 +136,21 @@ public class MapsActivity extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
+        LatLng CURRENT_LOCATION = new LatLng(location.getLatitude(), location.getLongitude());
+        googleMap.clear();
+        Marker seoul = googleMap.addMarker(new MarkerOptions().position(CURRENT_LOCATION)
+                .title("Seoul"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(CURRENT_LOCATION, 15));
     }
 
     private void CheckPermission() {

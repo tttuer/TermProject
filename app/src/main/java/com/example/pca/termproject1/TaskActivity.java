@@ -1,18 +1,28 @@
 package com.example.pca.termproject1;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -20,9 +30,14 @@ public class TaskActivity extends Fragment {
     //시작 버튼이 얼마나 눌렸는지 확인할 값
     private int btnCount = 0;
     private View rootView;
+    private ListView listView;
+    private ArrayAdapter<String> arrayAdapter;
+    private Button createTaskBtn;
+    private EditText taskEditText;
+    String s = "";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_task,container,false);
 
         hour_textView = (TextView) rootView.findViewById(R.id.hourText);
@@ -31,6 +46,57 @@ public class TaskActivity extends Fragment {
         startBtn = (TextView) rootView.findViewById(R.id.startBtn);
         stopBtn = (TextView) rootView.findViewById(R.id.stopBtn);
         resetBtn = (TextView) rootView.findViewById(R.id.resetBtn);
+        createTaskBtn = (Button) rootView.findViewById(R.id.createTask);
+
+
+        //리스트뷰 정의
+        arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1);
+        listView = (ListView) rootView.findViewById(R.id.taskListView);
+        listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
+
+
+        createTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view == createTaskBtn){
+                    Context context = getContext().getApplicationContext();
+                    LayoutInflater inflater1 = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    View layout = inflater.inflate(R.layout.activity_pop_up,(ViewGroup)rootView.findViewById(R.id.popup));
+                    AlertDialog.Builder aDialog = new AlertDialog.Builder(getActivity());
+
+                    aDialog.setTitle("할 일 추가");
+                    aDialog.setView(layout);
+
+                    //taskEditText값을 layout에서의 finviewbyid로해서 찾기!!! 중요
+                    taskEditText = (EditText) layout.findViewById(R.id.taskName);
+
+                    aDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            arrayAdapter.add(taskEditText.getText().toString());
+                        }
+                    });
+                    aDialog.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+
+
+                    AlertDialog ad = aDialog.create();
+                    ad.show();
+                }
+            }
+        });
+
 
         //시작 작업 수행
         startBtn.setOnClickListener(new View.OnClickListener() {

@@ -6,42 +6,114 @@
     android:layout_height="match_parent"
     tools:context="com.example.pca.termproject1.TaskActivity">
 
-    <TextView
-        android:id="@+id/TextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/clockLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="00" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/btnCountText"
+        <TextView
+        android:id="@+id/hourText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/TextView"
-        android:layout_marginLeft="10dp"
-        android:text="btn!"/>
+        android:text="00"
+        android:textSize="40dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" : "
+            android:textSize="40dp"/>
+        <TextView
+            android:id="@+id/minuteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textSize="40dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" : "
+            android:textSize="40dp"/>
+        <TextView
+            android:id="@+id/secondText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textSize="40dp"/>
 
-    <Button
-        android:id="@+id/startBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView"
-        android:text="start"/>
-    <Button
-        android:id="@+id/stopBtn"
-        android:layout_below="@+id/TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/startBtn"
-        android:text="stop"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/resetBtn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="reset"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/stopBtn"
-        android:layout_below="@+id/TextView" />
+        android:layout_below="@+id/clockLayout"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="start"
+            android:textSize="25dp"
+            android:textColor="#000000"
+            android:onClick="startClickBtn" />
+        <TextView
+            android:id="@+id/stopBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="stop"
+            android:textSize="25dp"
+            android:textColor="#000000"
+            android:onClick="stopClickBtn" />
+        <TextView
+            android:id="@+id/resetBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="reset"
+            android:textSize="25dp"
+            android:textColor="#000000"
+            android:onClick="resetClickBtn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listViewLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLayout"
+        android:layout_marginTop="30dp">
+        <ListView
+            android:id="@+id/taskListView"
+            android:layout_width="wrap_content"
+            android:layout_height="209dp">
+
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/listViewLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:id="@+id/createTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="create Task"/>
+    </LinearLayout>
+
+
+
 
 </RelativeLayout>
