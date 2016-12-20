@@ -26,12 +26,15 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class TaskActivity extends Fragment {
     //시작 버튼이 얼마나 눌렸는지 확인할 값
     private int btnCount = 0;
     private View rootView;
     private ListView listView;
-    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> items;
+    private ArrayAdapter arrayAdapter;
     private Button createTaskBtn;
     private EditText taskEditText;
     String s = "";
@@ -50,13 +53,24 @@ public class TaskActivity extends Fragment {
 
 
         //리스트뷰 정의
-        arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1);
+        items = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter(getContext(),android.R.layout.simple_list_item_1,items);
         listView = (ListView) rootView.findViewById(R.id.taskListView);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.v("포지션 : ","" + i);
+                items.remove(i);
+                arrayAdapter.notifyDataSetChanged();
+                return false;
             }
         });
 
@@ -81,7 +95,8 @@ public class TaskActivity extends Fragment {
                     aDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            arrayAdapter.add(taskEditText.getText().toString());
+                            items.add(taskEditText.getText().toString());
+                            arrayAdapter.notifyDataSetChanged();
                         }
                     });
                     aDialog.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
